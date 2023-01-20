@@ -12,11 +12,7 @@ import { signCheck } from './utils/crypto';
 const App = () => {
   const onPress = () => {
     if(window.crypto) {
-      signCheck({
-        ip: '::ffff:139.5.71.139',
-        userAgent: 'chark/1 CFNetwork/1402.0.8 Darwin |0th generation',
-        subtle: window.crypto.subtle,
-      }).then(console.log).catch(console.log)
+      signCheck(window.crypto.subtle).then(console.log).catch(console.log)
     }
   } 
 

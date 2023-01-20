@@ -13,23 +13,15 @@ const SignConfig = {		//For signing with RSA-PSS
   saltLength: 128
 }
 
-type SignArgs = {
-  subtle: any,
-  ip: string,
-  cookie?: string,
-  userAgent: string,
-  date?: string,
-}
-
-export const signCheck = async (args: SignArgs) => {
+export const signCheck = async (subtle) => {
   const encoder = new TextEncoder();
-  const { ip, cookie, userAgent, date, subtle } = args;
-  const  message = JSON.stringify({ip, cookie, userAgent, date})	//Must rebuild in this same order in the backend!
+  const message = "A test string"
+  const encMsg = encoder.encode(message)
 
   const keyPair = await subtle.generateKey(KeyConfig, true, ['sign','verify']);
   const priv = keyPair.privateKey
 
-  const sign = await subtle.sign(SignConfig, priv, encoder.encode(message))
+  const sign = await subtle.sign(SignConfig, priv, encMsg)
 
   return sign;
 }
